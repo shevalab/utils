@@ -9,8 +9,12 @@ of a string are treated as numbers
 For example
 
 010abc > 2abc
+
 0005text > 3text
+
 and
+
 some-string.100 > some-string.20 
+
 
 while with pure string comparison it will be different
