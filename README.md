@@ -8,13 +8,16 @@ of a string are treated as numbers
 
 For example
 
-010abc > 2abc
+<code>
+'010abc' > '2abc'
 
-0005text > 3text
+'0005text' > '3text'
+</code>
 
 and
 
-some-string.100 > some-string.20 
-
+<code>
+'some-string.100' > 'some-string.20'
+</code>
 
 while with pure string comparison it will be different

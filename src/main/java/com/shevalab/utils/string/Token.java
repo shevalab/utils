@@ -1,5 +1,7 @@
 package com.shevalab.utils.string;
 
+import java.math.BigInteger;
+
 public class Token implements Comparable<Token> {
     private TokenType type;
     private String text;
@@ -29,8 +31,8 @@ public class Token implements Comparable<Token> {
         return this;
     }
 
-    public Integer getNumber() {
-        return Integer.parseInt(this.text);
+    public BigInteger getNumber() {
+        return new BigInteger(this.text);
     }
 
     public Token addChar(char c) {
