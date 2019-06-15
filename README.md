@@ -36,10 +36,7 @@ Print state, which only prints XML tag information with indent, is an example of
         public void setIndent(String indent) {
             this.indent = indent;
         }
-        
-        
     }
-    
     
     private class PrintingState extends BaseState {
         
@@ -48,7 +45,6 @@ Print state, which only prints XML tag information with indent, is an example of
         public PrintingState(String elementName) {
             super(elementName);
         }
-        
 
         @Override
         public BaseState startElement(Attributes attributes) {
@@ -69,7 +65,6 @@ Print state, which only prints XML tag information with indent, is an example of
             indentData.setIndent(indent.substring(0, indent.length()-2));
             return this;
         }
-        
     }
 ```
 A state tree example is like
@@ -93,14 +88,14 @@ for the XML
 <Persons>
 	<Person department="Development">
 		<Name>
-			<FirstName></FirstName>
-			<LastName></LastName
+			<FirstName>Bob</FirstName>
+			<LastName>Robbinson</LastName>
 		</Name>
 	</Person>
 	<Person department="HR">
 		<Name>
-			<FirstName></FirstName>
-			<LastName></LastName
+			<FirstName>Yonia</FirstName>
+			<LastName>Pupkin</LastName>
 		</Name>
 	</Person>
 </Persons>
