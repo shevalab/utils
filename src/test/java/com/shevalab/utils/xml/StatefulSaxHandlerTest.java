@@ -2,7 +2,6 @@
 package com.shevalab.utils.xml;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -103,9 +102,9 @@ public class StatefulSaxHandlerTest {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setValidating(false);
         SAXParser saxParser = factory.newSAXParser();
-        BaseState state = new BaseState(null)
+        BaseState state = new BaseState()
                 .child(new PrintingState("OfflineSyncPackage")
-                            .child(new PrintingState("Updates")
+                                .child(new PrintingState("Updates")
                                     .child(new PrintingState("Update")
                                         .child(new PrintingState("Categories")
                                                 .child(new PrintingState("Category"))
@@ -135,14 +134,17 @@ public class StatefulSaxHandlerTest {
                                                 .child(new PrintingState("Language"))
                                         )                                            
                                     )
-                            )
-                            .setData(new IndentData()) // must be after setting children to propagate the data object to them.
+                                )
+                                .child(new PrintingState("FileLocations")
+                                        .child(new PrintingState("FileLocation"))
+                                )
+                                .setData(new IndentData()) // must be after setting children to propagate the data object to them.
                 );
-        BaseState stubState = new BaseState(null)
+        BaseState stubState = new BaseState()
                 .setAllowMissingChild(true)
                 .setStubSupplier(() -> new PrintingState())
                 .setData(new IndentData());
-        saxParser.parse(new File("/home/vadim/tmp/WSUS-less/1/extracted/package.xml"), new StatefulSaxHandler().setRootParserState(stubState));
+        saxParser.parse(new File("/home/vadim/tmp/WSUS-less/1/extracted/package.xml"), new StatefulSaxHandler().setRootParserState(state));
     }
 
 }

@@ -14,6 +14,7 @@ public class BaseState {
     private Object data;
     private boolean allowMissingChild = false;
     private Supplier<BaseState> stubSupplier = () -> new BaseState();
+    private boolean caseSensitive = false;
     
     public BaseState() {}
     
@@ -22,7 +23,19 @@ public class BaseState {
      * @param elementName XML tag name or null for a root (document) parser state
      */
     public BaseState(String elementName) {
-        this.elementName = elementName;
+        setElementName(elementName);
+    }
+
+    /**
+     * Constructor setting the parser state name according to an XML tag name
+     *
+     * @param elementName XML tag name or null for a root (document) parser
+     * @param caseSensitive define if the name match is case sensitive
+     * state
+     */
+    public BaseState(String elementName, boolean caseSensitive) {
+        this.caseSensitive = caseSensitive;
+        setElementName(elementName);
     }
 
     /**
@@ -31,7 +44,24 @@ public class BaseState {
      * @return this object
      */
     public BaseState setElementName(String name) {
-        this.elementName = name;
+        if(name == null) {
+            elementName = null;
+        } else {
+            this.elementName = caseSensitive ? name : name.toLowerCase();
+        }
+        return this;
+    }
+
+    /**
+     * Set XML tag name, parser state name
+     *
+     * @param name XML tag name as parser state name
+     * @param caseSensitive define if the name match is case sensitive
+     * @return this object
+     */
+    public BaseState setElementName(String name, boolean caseSensitive) {
+        this.caseSensitive = caseSensitive;
+        setElementName(name);
         return this;
     }
 
@@ -64,13 +94,15 @@ public class BaseState {
      * the stab state is retrieved if the setAllowMissingChild is set to true
      */
     public BaseState getChild(String name) {
-        
-        if(childStates == null) return createStubParser(name);
-        
+        String tagName = caseSensitive ? name : name.toLowerCase();
+        if (childStates == null) {
+            return createStubParser(tagName);
+        }
+
         return childStates.stream()
-                .filter(state -> state.getElementName().equals(name))
+                .filter(state -> state.getElementName().equals(tagName))
                 .findFirst()
-                .orElseGet(() -> createStubParser(name));
+                .orElseGet(() -> createStubParser(tagName));
     }
 
     /**
@@ -179,5 +211,17 @@ public class BaseState {
                         .setData(getData())
                         .setStubSupplier(stubSupplier)
                 : null;
-    }    
+    }
+
+    /**
+     * Retrieve the value of the case sensitivity flag for name match
+     * @return 
+     */
+    public boolean isCaseSensitive() {
+        return caseSensitive;
+    }
+
+
+
+    
 }
