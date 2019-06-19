@@ -70,7 +70,7 @@ Print state, which only prints XML tag information with indent, is an example of
 A state tree example is like
 
 ```java
-        BaseState state = new BaseState(null)
+        BaseState state = new BaseState()
                 .child(new PrintingState("Persons")
                             .child(new PrintingState("Person")
                                     .child(new PrintingState("Name")

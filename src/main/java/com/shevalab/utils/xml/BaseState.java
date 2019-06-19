@@ -220,8 +220,4 @@ public class BaseState {
     public boolean isCaseSensitive() {
         return caseSensitive;
     }
-
-
-
-    
 }
